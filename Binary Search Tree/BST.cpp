@@ -121,13 +121,13 @@ void BinTree::eliminar(){
 void BinTree::deleteNode(Node **p, int n){
     if(*p){
         if(n == (*p)->data){
-            if((*p)->left == nullptr && ((*p)->right) == nullptr){
+            if((*p)->left == nullptr && (*p)->right == nullptr){
                 Node *c = *p;
                 *p = nullptr;
                 return;
             }
 
-            if((*p)->left == nullptr && (*p)->right == nullptr){
+            if((*p)->left == nullptr || (*p)->right == nullptr){
                 Node *c = *p;
                 Node *child = ((*p)->left==nullptr) ? (*p)->right:(*p)->left; // existing son takes over father position
                 (*p) = child; 
@@ -135,12 +135,10 @@ void BinTree::deleteNode(Node **p, int n){
                 return;
             }
 
-            //if((*p)->left && (*p)->right){
-                Node **m = minValue(&(*p)->right);
-                (*p)->data = (*m)->data;
-                deleteNode(&(*m), (*m)->data);
-                return;
-            //}
+            Node **m = minValue(&(*p)->right);
+            (*p)->data = (*m)->data;
+            deleteNode(&(*m), (*m)->data);
+            return;
 
         } else
             if(n < (*p)->data)
